@@ -54,6 +54,20 @@ def flood_fill(start_pixel):
     return cell
 
 
+def change_color(cell):
+    r = None
+    g = None
+    b = None
+    for pixel in cell:
+        r += image[pixel][0]
+        g += image[pixel][1]
+        b += image[pixel][2]
+    mean_color = [np.mean(r), np.mean(g), np.mean(b)]
+
+    for pixel in cell:
+        image[pixel] = mean_color
+
+
 if __name__ == '__main__':
 
     origin_image = plt.imread('Brown_bear_(Ursus_arctos_arctos)_running.jpg')
@@ -73,6 +87,7 @@ if __name__ == '__main__':
     while unsorted_pixels:
         start_pixel = list(unsorted_pixels)[0]
         cell = flood_fill(start_pixel)
+        change_color(cell)
 
         cell_num = len(cell_dict)
         cell_dict[cell_num] = cell
