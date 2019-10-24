@@ -55,14 +55,16 @@ def flood_fill(start_pixel):
 
 
 def change_color(cell):
-    r = None
-    g = None
-    b = None
+    r = 0
+    g = 0
+    b = 0
     for pixel in cell:
+        print(f'red color value: {image[pixel][0]}')
         r += image[pixel][0]
         g += image[pixel][1]
         b += image[pixel][2]
     mean_color = [np.mean(r), np.mean(g), np.mean(b)]
+    print(f'mean color: {mean_color}')
 
     for pixel in cell:
         image[pixel] = mean_color
