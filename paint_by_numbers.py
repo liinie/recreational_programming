@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import matplotlib
-
 
 def euclidean_distance(color1, color2):
-    # print(f'color1: {color1}')
+    print(f'color1: {color1}')
     r1, g1, b1 = color1
     r2, g2, b2 = color2
 
@@ -29,8 +27,8 @@ def neighbors(current_pixel):
 
 def flood_fill(start_pixel):
     start_color = image[start_pixel]
-    # print(f'start color: {start_color}')
-    # print(f'start pixel: {start_pixel}')
+    print(f'start color: {start_color}')
+    print(f'start pixel: {start_pixel}')
     to_search = set()
     to_search.add(start_pixel)
     cell = set()
@@ -63,7 +61,7 @@ def change_color(cell):
         r += image[pixel][0]
         g += image[pixel][1]
         b += image[pixel][2]
-    mean_color = [np.mean(r), np.mean(g), np.mean(b)]
+    mean_color = [int(np.mean(r)), int(np.mean(g)), int(np.mean(b))]
     print(f'mean color: {mean_color}')
 
     for pixel in cell:
@@ -71,35 +69,68 @@ def change_color(cell):
 
 
 if __name__ == '__main__':
+    #
+    arr = np.random.randint(256, size=(5, 6, 3))
+    #
+    # origin_image = plt.imread(arr)
+    #
+    # image = origin_image.copy()
+    #
+    # unsorted_pixels = {(i, j) for i in range(image.shape[0]) for j in range(image.shape[1])}
+    # pixel_cell = {}
+    #
+    # # print(image[list(unsorted_pixels)[0]])
+    #
+    # THREADSHOLD = 100
+    #
+    # cell_dict = {}
+    #
+    # count = 0
+    # while unsorted_pixels:
+    #     start_pixel = list(unsorted_pixels)[0]
+    #     cell = flood_fill(start_pixel)
+    #     change_color(cell)
+    #
+    #     cell_num = len(cell_dict)
+    #     cell_dict[cell_num] = cell
+    #
+    #     count += 1
+    #
+    #     if count % 50 == 0:
+    #         print(f'number of pixels to sort: {len(unsorted_pixels)}')
 
-    origin_image = plt.imread('Brown_bear_(Ursus_arctos_arctos)_running.jpg')
 
-    image = origin_image.copy()
+    # settings
+    h, w = 10, 10  # for raster image
+    nrows, ncols = 5, 4  # array of sub-plots
+    figsize = [6, 8]  # figure size, inches
 
-    unsorted_pixels = {(i, j) for i in range(image.shape[0]) for j in range(image.shape[1])}
-    pixel_cell = {}
+    # prep (x,y) for extra plotting on selected sub-plots
+    xs = np.linspace(0, 2 * np.pi, 60)  # from 0 to 2pi
+    ys = np.abs(np.sin(xs))  # absolute of sine
 
-    # print(image[list(unsorted_pixels)[0]])
+    # create figure (fig), and array of axes (ax)
+    fig, ax = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
 
-    THREADSHOLD = 20
+    # # plot simple raster image on each sub-plot
+    # for i, axi in enumerate(ax.flat):
+    #     # i runs from 0 to (nrows*ncols-1)
+    #     # axi is equivalent with ax[rowid][colid]
+    #     img = np.random.randint(10, size=(h, w))
+    #     axi.imshow(img, alpha=0.25)
+    #     # get indices of row/column
+    #     rowid = i // ncols
+    #     colid = i % ncols
+    #     # write row/col indices as axes' title for identification
+    #     axi.set_title("Row:" + str(rowid) + ", Col:" + str(colid))
 
-    cell_dict = {}
+    # one can access the axes by ax[row_id][col_id]
+    # do additional plotting on ax[row_id][col_id] of your choice
+    ax[0][2].imshow(arr)
+    ax[4][3].plot(ys ** 2, xs, color='green', linewidth=3)
 
-    count = 0
-    while unsorted_pixels:
-        start_pixel = list(unsorted_pixels)[0]
-        cell = flood_fill(start_pixel)
-        change_color(cell)
-
-        cell_num = len(cell_dict)
-        cell_dict[cell_num] = cell
-
-        count += 1
-
-        if count % 50 == 0:
-            print(f'number of pixels to sort: {len(unsorted_pixels)}')
-
-    plt.imshow(image)
+    plt.tight_layout(True)
+    plt.show()
 
 
 
