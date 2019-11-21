@@ -13,20 +13,31 @@ def partition_image(num, image):
     last_cell_w = cell_w + (w - cell_w*num)
     cell_n = num
 
-    while num>0:
+    while num > 0:
         if num != 1:
             pixel_in_cell = []
+            # get all pixels in one cell and calculate the median of the cell
             for i in range(h):
                 for j in range((cell_n - num)*cell_w, (cell_n - num + 1)*cell_w + 1):
                     pixel_in_cell.append(image[i, j])
             median_c = cell_median(pixel_in_cell)
+
+            # replace the pixel color in that cell with the median color value
             for i in range(h):
-                for j in range(cell_w + (cell_n - num) * cell_w):
+                for j in range((cell_n - num) * cell_w, (cell_n - num + 1)*cell_w + 1):
                     image[i, j] = median_c
             num -= 1
         else:
-            # TODO: the last cell division
-            pass 
+            assert num == 1
+            pixel_in_cell = []
+            for i in range(h):
+                for j in range((cell_n - num)*cell_w, w):
+                    pixel_in_cell.append(image[i, j])
+            median_c = cell_median(pixel_in_cell)
+            for i in range(h):
+                for j in range((cell_n - num)*cell_w, w):
+                    image[i, j] = median_c
+            pass
 
 
 def cell_median(cell):
